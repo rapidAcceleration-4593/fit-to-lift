@@ -4,10 +4,15 @@ int in1 = 8;
 int in2 = 7;
 // Motor B connections
 int enB = 4;
-int in3 = 6;
-int in4 = 5;
+int in3 = 5;
+int in4 = 6;
 //loop variables
 int a;
+
+volatile unsigned int temp, counter = 0;
+
+int limitSwitch = 10; 
+
 //pin defs
 #define MAG_PIN 11
 //Button Pin variable
@@ -35,6 +40,18 @@ void setup() {
 
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT);
+
+  pinMode(2, INPUT_PULLUP); // internal pullup input pin 2 
+  
+  pinMode(3, INPUT_PULLUP); // internalเป็น pullup input pin 3
+//Setting up interrupt
+  //A rising pulse from encodenren activated ai0(). AttachInterrupt 0 is DigitalPin nr 2 on moust Arduino.
+  attachInterrupt(0, ai0, RISING);
+   
+  //B rising pulse from encodenren activated ai1(). AttachInterrupt 1 is DigitalPin nr 3 on moust Arduino.
+  attachInterrupt(1, ai1, RISING);
+
+  pinMode(limitSwitch, INPUT_PULLUP);
 }
 
 void loop() {
@@ -45,6 +62,18 @@ void loop() {
   delay(9000);//delays
   digitalWrite(MAG_PIN, HIGH);//turns pin on (also confusingly)
   delay(1000);// delays
+  // Send the value of counter
+  if( counter != temp ){
+  Serial.println (counter);
+  temp = counter;
+  }
+
+  if(digitalRead(limitSwitch) == 1){
+    Serial.println("Button Go no brr");
+  }
+  else{
+    Serial.println("Button Go brr");    // turn the motor on (in the opposite direction)
+  }
 }
 
 // This function runs the mutur
@@ -71,3 +100,23 @@ void speedControl() {
 	digitalWrite(in4, LOW);
   a = 0;//reset loop
 }
+
+  void ai0() {
+  // ai0 is activated if DigitalPin nr 2 is going from LOW to HIGH
+  // Check pin 3 to determine the direction
+  if(digitalRead(3)==LOW) {
+  counter++;
+  }else{
+  counter--;
+  }
+  }
+   
+  void ai1() {
+  // ai0 is activated if DigitalPin nr 3 is going from LOW to HIGH
+  // Check with pin 2 to determine the direction
+  if(digitalRead(2)==LOW) {
+  counter--;
+  }else{
+  counter++;
+  }
+  }
