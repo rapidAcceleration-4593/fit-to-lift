@@ -55,24 +55,19 @@ void setup() {
 }
 
 void loop() {
-  // read the state of the pushbutton value:
-  
-	speedControl();
-  digitalWrite(MAG_PIN, LOW);//turns pin on (confusingly)
-  delay(9000);//delays
-  digitalWrite(MAG_PIN, HIGH);//turns pin on (also confusingly)
-  delay(1000);// delays
-  // Send the value of counter
-  if( counter != temp ){
-  Serial.println (counter);
-  temp = counter;
+
+  if(digitalRead(limitSwitch) == 0){
+    digitalWrite(MAG_PIN, HIGH);//turns pin on (also confusingly)
+    speedControl();
   }
 
-  if(digitalRead(limitSwitch) == 1){
-    Serial.println("Button Go no brr");
-  }
   else{
-    Serial.println("Button Go brr");    // turn the motor on (in the opposite direction)
+    Serial.println("Button Go NO brr");
+    digitalWrite(MAG_PIN, LOW);//turns pin on (confusingly)
+  	digitalWrite(in1, LOW);
+	  digitalWrite(in2, LOW);
+	  digitalWrite(in3, LOW);
+	  digitalWrite(in4, LOW);
   }
 }
 
@@ -89,15 +84,8 @@ void speedControl() {
     int i = 255;//makes it go max speed
 		analogWrite(enA, i);//bro idk
 		analogWrite(enB, i);//same here
-		delay(4593); //runs for 4.593 secs
     a = 1;// exits
 	}
-
-  // Turn off motors
-	digitalWrite(in1, LOW);
-	digitalWrite(in2, LOW);
-	digitalWrite(in3, LOW);
-	digitalWrite(in4, LOW);
   a = 0;//reset loop
 }
 
@@ -108,7 +96,7 @@ void speedControl() {
   counter++;
   }else{
   counter--;
-  }
+  } 
   }
    
   void ai1() {
