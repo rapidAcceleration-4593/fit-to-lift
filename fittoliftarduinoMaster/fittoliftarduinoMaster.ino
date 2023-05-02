@@ -80,13 +80,10 @@ void speedControl() {
 	digitalWrite(in4, HIGH);
 	
 	// make motor go brrrrrrrrrrrrrrrrrrrrrrrrrr
-	while (a == 0) {
-    int i = 255;//makes it go max speed
-		analogWrite(enA, i);//bro idk
-		analogWrite(enB, i);//same here
-    a = 1;// exits
-	}
-  a = 0;//reset loop
+
+  int i = 255;//makes it go max speed
+	analogWrite(enA, i);//bro idk
+	analogWrite(enB, i);//same here
 }
 
   void ai0() {
