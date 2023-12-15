@@ -5,7 +5,9 @@ int in2 = 7;
 // Motor B connections
 int enB = 3;
 int in3 = 5;
-int in4 = 4;
+int in4 = 6;
+int in11 = 12;
+int in12 = 13;
 int a;
 
 void setup() {
@@ -16,6 +18,8 @@ void setup() {
 	pinMode(in2, OUTPUT);
 	pinMode(in3, OUTPUT);
 	pinMode(in4, OUTPUT);
+  pinMode(in11, OUTPUT);
+  pinMode(in12, OUTPUT);  
   a = 0;
 	
 	// Turn off motors - Initial state
@@ -23,55 +27,42 @@ void setup() {
 	digitalWrite(in2, LOW);
 	digitalWrite(in3, LOW);
 	digitalWrite(in4, LOW);
+  digitalWrite(in11, LOW);
+  digitalWrite(in12, LOW);
 }
 
 void loop() {
 	speedControl();
 }
 
-// This function lets you control spinning direction of motors
-void directionControl() {
-	// Set motors to maximum speed
-	// For PWM maximum possible values are 0 to 255
-	analogWrite(enA, 255);
-	analogWrite(enB, 255);
-
-	// Turn on motor A & B
-	digitalWrite(in1, HIGH);
-	digitalWrite(in2, LOW);
-	digitalWrite(in3, HIGH);
-	digitalWrite(in4, LOW);
-	delay(2000);
-	
-	// Turn off motors
-	digitalWrite(in1, LOW);
-	digitalWrite(in2, LOW);
-	digitalWrite(in3, LOW);
-	digitalWrite(in4, LOW);
-}
-
 // This function lets you control speed of the muturs
 void speedControl() {
 	// Turn on motors
 	digitalWrite(in1, LOW);
-	digitalWrite(in2, HIGH);
-	digitalWrite(in3, LOW);
-	digitalWrite(in4, HIGH);
-	
-	// Accelerate from zero to maximum speed
-	while (a == 0) {
-    int i = 255;
-		analogWrite(enA, i);
-		analogWrite(enB, i);
-		delay(4593);
-    a = 1;
-	}
-
-  // Turn off motors
-	digitalWrite(in1, LOW);
 	digitalWrite(in2, LOW);
 	digitalWrite(in3, LOW);
 	digitalWrite(in4, LOW);
-  delay(21000);
+  digitalWrite(in11, HIGH);
+  digitalWrite(in12, HIGH);
+  delay(2000);
+
+
+  int i = 255;
+  analogWrite(enA, i);
+  analogWrite(enB, i);
+  digitalWrite(in11, HIGH);
+  digitalWrite(in12, HIGH);
+  delay(4593);
+
+  // Turn off motors
+	digitalWrite(in1, HIGH);
+	digitalWrite(in2, HIGH);
+	digitalWrite(in3, HIGH);
+	digitalWrite(in4, HIGH);
+  digitalWrite(in11, LOW);
+  digitalWrite(in12, LOW);
+
+  
+  delay(2100);
   a = 0;
 }

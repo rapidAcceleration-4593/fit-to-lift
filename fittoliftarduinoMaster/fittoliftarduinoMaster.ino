@@ -8,6 +8,7 @@ int in3 = 5;
 int in4 = 6;
 // loop variables
 int a;
+int d;
 
 volatile unsigned int temp, counter = 0;
 
@@ -22,6 +23,8 @@ int buttonState = 0;
 void setup()
 {
   Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.setTimeout(1);
   pinMode(MAG_PIN, OUTPUT);
 
   // Set all the motor control pins to outputs
@@ -58,30 +61,34 @@ void setup()
 void loop()
 {
 
-  if (digitalRead(limitSwitch) == 0)
+
+  if (d == 1||digitalRead(limitSwitch) == 0)
   {
-    digitalWrite(MAG_PIN, HIGH); // turns pin on (also confusingly)
+    digitalWrite(MAG_PIN, LOW); // turns pin on (also confusingly)
     speedControl();
   }
 
   else
   {
-    digitalWrite(MAG_PIN, LOW); // turns pin on (confusingly)
+    digitalWrite(MAG_PIN, HIGH); // turns pin on (confusingly)
     digitalWrite(in1, LOW);
     digitalWrite(in2, LOW);
     digitalWrite(in3, LOW);
     digitalWrite(in4, LOW);
+    
+    
   }
 
   Serial.println(counter);
+  Ceralinput();
 }
 
 // This function runs the mutur
 void speedControl()
 {
   // Turn on motors
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, HIGH);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
   digitalWrite(in3, LOW);
   digitalWrite(in4, HIGH);
 
@@ -118,4 +125,9 @@ void ai1()
   {
     counter++;
   }
+}
+
+void Ceralinput()
+{
+    
 }
