@@ -30,39 +30,35 @@ void setup() {
 }
 
 void loop() {
-  //digitalWrite(magnetA, HIGH);
-  //digitalWrite(magnetB, HIGH);
-
-  motorUp();
+  motorUp(100);
 
   delay(1000);
-
-  digitalWrite(magnetA, LOW);
-  digitalWrite(magnetB, LOW);
 
   motorStop();
 
-  motorDown();
+  delay(1000);
+
+  motorDown(100);
+
+  delay(1000);
+
+  motorStop();
 
   delay(1000);
 
 }
 
-void motorDown() {
-  digitalWrite(motorRightEnable, HIGH);
-  digitalWrite(motorLeftEnable, HIGH);
-  analogWrite(motorRightPWM, 100);
+void motorDown(int speed) {
+  analogWrite(motorRightPWM, speed);
   analogWrite(motorLeftPWM, 0);
 }
 
-void motorUp() {
-  digitalWrite(motorRightEnable, HIGH);
-  digitalWrite(motorLeftEnable, HIGH);
+void motorUp(int speed) {
   analogWrite(motorRightPWM, 0);
-  analogWrite(motorLeftPWM, 100);
+  analogWrite(motorLeftPWM, speed);
 }
 
 void motorStop() {
-  digitalWrite(motorRightEnable, LOW);
-  digitalWrite(motorLeftEnable, LOW);
+  analogWrite(motorRightPWM, 0);
+  analogWrite(motorLeftPWM, 0);
 }
