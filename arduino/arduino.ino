@@ -30,22 +30,25 @@ void setup() {
 }
 
 void loop() {
+  magnetDisengage();
   motorUp(150);
 
   delay(1000);
 
   motorStop();
+  magnetEngage();
 
   delay(1000);
 
+  magnetDisengage();
   motorDown(100);
 
   delay(1000);
 
+  magnetEngage();
   motorStop();
 
   delay(1000);
-
 }
 
 void motorDown(int speed) {
@@ -61,4 +64,14 @@ void motorUp(int speed) {
 void motorStop() {
   analogWrite(motorRightPWM, 0);
   analogWrite(motorLeftPWM, 0);
+}
+
+void magnetEngage() {
+  digitalWrite(magnetA, HIGH);
+  digitalWrite(magnetB, HIGH);
+}
+
+void magnetDisengage() {
+  digitalWrite(magnetA, LOW);
+  digitalWrite(magnetB, LOW);
 }
