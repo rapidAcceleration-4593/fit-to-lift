@@ -30,7 +30,7 @@ void setup() {
 }
 
 void loop() {
-  motorUp(100);
+  motorUp(150);
 
   delay(1000);
 
