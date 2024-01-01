@@ -1,7 +1,7 @@
 from tkinter import *
 import serial
 
-ser = serial.Serial('COM3', 9600, timeout=.1)
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
 # Replace the port name with the serial port in use. On Linux (the pi) this will look like /dev/ttyUSB0 or something like that. You can run cat /dev/ | grep ttyUSB to find the port for now. will need a more robust solution for opening the serial connection.
 
 def motor_up():

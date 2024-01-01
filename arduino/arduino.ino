@@ -1,5 +1,5 @@
 // pin connections
-int loadCellAnalog = A1;
+int loadCellAnalog = A5;
 int motorRightEnable = 7;
 int motorLeftEnable = 8;
 int motorRightPWM = 6;
@@ -8,6 +8,9 @@ int magnetA = 12;
 int magnetB = 13;
 int encoderA = 2;
 int encoderB = 3;
+
+bool magnetEngaged = false;
+int analogVal = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -30,10 +33,15 @@ void setup() {
 
   digitalWrite(magnetA, LOW);
   digitalWrite(magnetB, LOW);
+
+  magnetDisengage();
 }
 
 void loop() {
-  while (!Serial.available());
+  while (!Serial.available()) {
+    // analogVal = analogRead(loadCellAnalog);
+    // Serial.println(analogVal);
+  }
   String command = Serial.readString();
   
   if (command == "u") {
@@ -52,13 +60,19 @@ void loop() {
 }
 
 void motorDown(int speed) {
+  if (!magnetEngaged) 
+  {
   analogWrite(motorRightPWM, speed);
   analogWrite(motorLeftPWM, 0);
+  }
 }
 
 void motorUp(int speed) {
+  if (!magnetEngaged)
+  {
   analogWrite(motorRightPWM, 0);
   analogWrite(motorLeftPWM, speed);
+  }
 }
 
 void motorStop() {
@@ -69,9 +83,13 @@ void motorStop() {
 void magnetEngage() {
   digitalWrite(magnetA, HIGH);
   digitalWrite(magnetB, HIGH);
+
+  magnetEngaged = true;
 }
 
 void magnetDisengage() {
   digitalWrite(magnetA, LOW);
   digitalWrite(magnetB, LOW);
+
+  magnetEngaged = false;
 }
