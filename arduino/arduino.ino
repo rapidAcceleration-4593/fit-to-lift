@@ -6,10 +6,13 @@ int motorRightPWM = 6;
 int motorLeftPWM = 5; 
 int magnetA = 12;
 int magnetB = 13;
-int encoderA = 3;
-int encoderB = 4;
+int encoderA = 2;
+int encoderB = 3;
 
 void setup() {
+  Serial.begin(9600);
+  Serial.setTimeout(1);
+
   pinMode(motorRightEnable, OUTPUT);
   pinMode(motorLeftEnable, OUTPUT);
   pinMode(motorRightPWM, OUTPUT);
@@ -30,25 +33,22 @@ void setup() {
 }
 
 void loop() {
-  magnetDisengage();
-  motorUp(150);
-
-  delay(1000);
-
-  motorStop();
-  magnetEngage();
-
-  delay(1000);
-
-  magnetDisengage();
-  motorDown(100);
-
-  delay(1000);
-
-  magnetEngage();
-  motorStop();
-
-  delay(1000);
+  while (!Serial.available());
+  String command = Serial.readString();
+  
+  if (command == "u") {
+    motorUp(100);
+    delay(500);
+    motorStop();
+  } else if (command == "d") {
+    motorDown(100);
+    delay(500);
+    motorStop();
+  } else if (command == "e") {
+    magnetEngage();
+  } else if (command == "r") {
+    magnetDisengage();
+  }
 }
 
 void motorDown(int speed) {
